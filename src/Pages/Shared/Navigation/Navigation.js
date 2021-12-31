@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navigation = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -76,8 +75,23 @@ const Navigation = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
+                            <Link to='/' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Home</Typography>
+                                </MenuItem>
+                            </Link>
+                            <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Dashboard</Typography>
+                                </MenuItem>
+                            </Link>
+                            <Link to='/login' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Login</Typography>
+                                </MenuItem>
+                            </Link>
                             <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">temp</Typography>
+                                <Typography textAlign="center" sx={{ color: 'blue' }}>Logout</Typography>
                             </MenuItem>
                         </Menu>
                     </Box>
@@ -90,18 +104,38 @@ const Navigation = () => {
                         Hero Rider
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <Box>
-                            <Link to='/' style={{ textDecoration: 'none' }}>
-                                <Button
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >Home
-                                </Button>
-                            </Link>
-                        </Box>
+                        <Link to='/' style={{ textDecoration: 'none' }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >Home
+                            </Button>
+                        </Link>
+                        <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >Dashboard
+                            </Button>
+                        </Link>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'end' }}>
+                        <Link to='/login' style={{ textDecoration: 'none' }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >Login
+                            </Button>
+                        </Link>
+                        <Button
+                            onClick={handleCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >Logout
+                        </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -123,11 +157,27 @@ const Navigation = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+
+                            <Link to='/' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Home</Typography>
                                 </MenuItem>
-                            ))}
+                            </Link>
+                            <Link to='/profile' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Profile</Typography>
+                                </MenuItem>
+                            </Link>
+                            <Link to='/login' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Login</Typography>
+                                </MenuItem>
+                            </Link>
+                            <Link to='/' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+                            </Link>
                         </Menu>
                     </Box>
                 </Toolbar>
