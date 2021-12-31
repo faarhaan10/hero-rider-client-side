@@ -1,15 +1,17 @@
 import React from 'react';
-import { Alert, Button, Chip, Container, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Button, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import RiderJoining from '../Modals/RiderJoining'
+import RiderJoining from '../Modals/RiderJoining/RiderJoining'
+import LearnerJoining from '../Modals/LearnerJoining/LearnerJoining';
 // import useAuth from '../../../hooks/useAuth';
 
 const Registration = () => {
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const [openRider, setOpenRider] = React.useState(false);
+    const [openLearner, setOpenLearner] = React.useState(false);
+    const handleOpenRider = () => setOpenRider(true);
+    const handleOpenLearner = () => setOpenLearner(true);
 
 
     return (
@@ -33,20 +35,27 @@ const Registration = () => {
                         <Button fullWidth
                             variant="contained"
                             gutterBottom
-                            onClick={handleOpen}
+                            onClick={handleOpenRider}
                         >
                             Join as a Rider
                         </Button>
-                        <RiderJoining open={open} setOpen={setOpen} />
+
+                        <RiderJoining openRider={openRider} setOpenRider={setOpenRider} />
+
                         <Divider>
                             <Chip label="OR " />
                         </Divider>
-                        <Button fullWidth
+
+                        <Button
+                            onClick={handleOpenLearner}
+                            fullWidth
                             variant="contained"
                             gutterBottom
                         >
                             Driving Lesson Learner
                         </Button>
+
+                        <LearnerJoining openLearner={openLearner} setOpenLearner={setOpenLearner} />
 
                         <Link to="/login">
                             <Button fullWidth variant="text">
