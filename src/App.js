@@ -1,12 +1,18 @@
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from './Pages/Home/Home/Home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Home />
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Home />} />
+        {/* <Route path="teams" element={<Teams />}>
+          <Route path=":teamId" element={<Team />} />
+          <Route path="new" element={<NewTeamForm />} />
+          <Route index element={<LeagueStandings />} />
+        </Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
