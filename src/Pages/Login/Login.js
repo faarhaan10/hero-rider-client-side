@@ -70,12 +70,7 @@ const Login = () => {
                                     sx={{ mb: 3 }}
                                     {...register("password", { required: true })}
                                 />
-                                <Button
-                                    fullWidth variant="contained" color="warning"
-                                    type='submit'
-                                >
-                                    Log in
-                                </Button>
+                                <Button fullWidth variant="contained" sx={{ mt: 2 }} type='submit' >Login</Button>
                             </form>
                         </Box>
                         <Link to="/registration">
