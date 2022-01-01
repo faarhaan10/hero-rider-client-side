@@ -83,6 +83,11 @@ const Navigation = () => {
                                     <Typography textAlign="center">Home</Typography>
                                 </MenuItem>
                             </Link>
+                            <Link to='/profile' style={{ textDecoration: 'none' }}>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">My Profile</Typography>
+                                </MenuItem>
+                            </Link>
                             <Link to='/dashboard' style={{ textDecoration: 'none' }}>
                                 <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">Dashboard</Typography>
@@ -109,6 +114,13 @@ const Navigation = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >Home
+                            </Button>
+                        </Link>
+                        <Link to='/profile' style={{ textDecoration: 'none' }}>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >My Profile
                             </Button>
                         </Link>
                         <Link to='/dashboard' style={{ textDecoration: 'none' }}>
@@ -161,16 +173,12 @@ const Navigation = () => {
                             onClose={handleCloseUserMenu}
                         >
 
-                            <Link to='/' style={{ textDecoration: 'none' }}>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">Home</Typography>
-                                </MenuItem>
-                            </Link>
                             <Link to='/profile' style={{ textDecoration: 'none' }}>
                                 <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">Profile</Typography>
+                                    <Typography textAlign="center">{user.displayName}</Typography>
                                 </MenuItem>
                             </Link>
+
                             <MenuItem onClick={handleLogOut}>
                                 <Typography textAlign="center" sx={{ color: 'blue' }}>Logout</Typography>
                             </MenuItem>

@@ -57,6 +57,7 @@ const useFirebase = () => {
             })
             .catch((error) => {
                 setError(error.message);
+                alert(error.message);
             })
             .finally(() => {
                 navigate('/');
@@ -102,8 +103,18 @@ const useFirebase = () => {
         });
     };
 
+    // check admin
+    useEffect(() => {
+        setIsLoading(true)
+        axios.get(`${databaseUri}/admin?email=${user.email}`)
+            .then(res => setAdmin(res.data.admin))
+            .catch()
+        setIsLoading(false)
+    }, [user.email]);
+
     return ({
         user,
+        admin,
         error,
         setError,
         isLoading,

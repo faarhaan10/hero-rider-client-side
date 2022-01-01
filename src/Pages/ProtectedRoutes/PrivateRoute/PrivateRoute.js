@@ -6,11 +6,11 @@ import useAuth from '../../../hooks/useAuth';
 
 const PrivateRoute = ({ children, ...rest }) => {
     const { user, isLoading } = useAuth();
-
+    console.log(user)
     let location = useLocation();
     if (isLoading) { return <Box sx={{ textAlign: 'center' }} ><CircularProgress /></Box> }
 
-    if (user.email) {
+    if (user?.email) {
         return children;
     }
     return <Navigate to="/login" state={{ from: location }} />;
