@@ -8,6 +8,7 @@ import UserInformation from '../Common/UserInformation';
 import VehicalInformation from '../Common/VehicalInformation';
 import UserPassword from '../Common/UserPassword';
 import useAuth from '../../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -29,9 +30,11 @@ export default function RiderJoining(props) {
     const { openRider, setOpenRider } = props;
     const handleClose = () => setOpenRider(false);
 
+    const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
+
     const onSubmit = data => {
-        console.log(data);
+
         if (data.password1 !== data.password2 && data.password1.length <= 6) {
             alert('password dose not match or less than 6 characters');
             return;
@@ -41,8 +44,16 @@ export default function RiderJoining(props) {
             alert('Time for study kid! Your age was not satisfy our policy');
             return;
         };
-        const location = '/profile'
-        handleEmailPasswordRegister(data, location)
+        const location = '/profile';
+        const isAdmin = false;
+        const userType = 'rider';
+        const newData = {
+            isAdmin,
+            userType,
+            ...data
+        };
+        console.log(data);
+        handleEmailPasswordRegister(newData, navigate, location);
     };
 
     return (

@@ -30,8 +30,9 @@ const VehicalInformation = ({ register }) => {
                         label="Vehicle type"
                         {...register("vehicleType", { required: true })}
                     >
-                        <MenuItem value=''>
-                            None
+
+                        <MenuItem defaultValue=''>
+                            none
                         </MenuItem>
                         <MenuItem value='car'>
                             Car

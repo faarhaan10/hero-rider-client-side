@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import firebaseAuthentication from '../Firebase/firebase.init';
 
 firebaseAuthentication();
@@ -12,12 +11,11 @@ const useFirebase = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [admin, setAdmin] = useState(false);
 
-    console.log(user)
     // auth
     const auth = getAuth();
 
     // create user with email and pass 
-    const handleEmailPasswordRegister = (data, location) => {
+    const handleEmailPasswordRegister = (data, navigate, location) => {
         setIsLoading(true)
         createUserWithEmailAndPassword(auth, data.email, data.password1)
             .then((user) => {
@@ -32,7 +30,7 @@ const useFirebase = () => {
             .catch((error) => {
                 setError(error.message);
             }).finally(() => {
-                Navigate(location);
+                navigate(location);
                 setIsLoading(false);
             })
     };
@@ -42,13 +40,13 @@ const useFirebase = () => {
         setIsLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
-                history.replace(location.state?.from || '/')
+
             })
             .catch((error) => {
                 setError(error.message);
             })
             .finally(() => {
-                // history.push(location);
+
                 setIsLoading(false);
             })
     };
@@ -62,7 +60,7 @@ const useFirebase = () => {
             } else {
                 setUser({});
             }
-            setIsLoading(false)
+            setIsLoading(false);
         });
         return () => unsubscribed;
     }, [auth]);

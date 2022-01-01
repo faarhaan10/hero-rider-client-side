@@ -18,14 +18,12 @@ const Registration = () => {
             <Container maxWidth="sm" sx={{ p: 5, borderRadius: { xs: 0, md: 8 }, boxShadow: '0 0 11px rgb(0 0 0 / 30%)', backgroundColor: '#fff' }}>
                 <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                     <Grid item xs={12} md={4} >
-                        <Typography variant="h5" gutterBottom component="div"
-
+                        <Typography variant="h5" component="div"
                         >
                             Register to
                         </Typography>
                         <hr />
-                        <Typography variant="h4" gutterBottom component="div"
-
+                        <Typography variant="h4" component="div"
                         >
                             Be a Hero Rider
                         </Typography>
@@ -33,7 +31,6 @@ const Registration = () => {
                     <Grid item xs={12} md={8} sx={{ borderLeft: { xs: 0, md: '1px solid gray' }, py: 3 }}>
                         <Button fullWidth
                             variant="contained"
-                            gutterBottom
                             onClick={handleOpenRider}
                         >
                             Join as a Rider
@@ -49,7 +46,6 @@ const Registration = () => {
                             onClick={handleOpenLearner}
                             fullWidth
                             variant="contained"
-                            gutterBottom
                         >
                             Driving Lesson Learner
                         </Button>

@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import UserInformation from '../Common/UserInformation';
 import VehicalInformation from '../Common/VehicalInformation';
 import UserPassword from '../Common/UserPassword';
+import useAuth from '../../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -23,12 +25,17 @@ const style = {
 };
 
 const LearnerJoining = (props) => {
+
+    const { handleEmailPasswordRegister } = useAuth();
+
     const { openLearner, setOpenLearner } = props;
     const handleCloseLearner = () => setOpenLearner(false);
 
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit } = useForm();
+
+    const navigate = useNavigate();
     const onSubmit = data => {
-        console.log(data)
+
         if (data.password1 !== data.password2 && data.password1.length <= 6) {
             alert('password dose not match or less than 6 characters');
             return;
@@ -39,7 +46,16 @@ const LearnerJoining = (props) => {
             return;
         };
 
-    }
+        const location = '/packages';
+        const isAdmin = false;
+        const userType = 'rider';
+        const newData = {
+            isAdmin,
+            userType,
+            ...data
+        };
+        handleEmailPasswordRegister(newData, navigate, location);
+    };
 
     return (
         <div>
@@ -66,7 +82,8 @@ const LearnerJoining = (props) => {
                                     label="Vehicle type"
                                     {...register("vehicleType", { required: true })}
                                 >
-                                    <MenuItem value=''>
+
+                                    <MenuItem defaultValue=''>
                                         none
                                     </MenuItem>
                                     <MenuItem value='car'>

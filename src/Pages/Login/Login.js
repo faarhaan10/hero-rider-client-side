@@ -40,13 +40,13 @@ const Login = () => {
                 }}>
                 <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                     <Grid item xs={12} md={4} >
-                        <Typography variant="h4" gutterBottom component="div"
+                        <Typography variant="h4" component="div"
 
                         >
                             Log in
                         </Typography>
                         <hr />
-                        <Typography variant="body1" gutterBottom>
+                        <Typography variant="body1" >
                             Get access to your
                             Orders, Wishlist and Recommendations.
                         </Typography>
