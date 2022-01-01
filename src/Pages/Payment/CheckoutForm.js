@@ -50,7 +50,6 @@ const CheckoutForm = ({ newPackage }) => {
         }
         else {
             setError('');
-            console.log(paymentMethod);
         }
 
         // payment intent

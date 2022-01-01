@@ -13,35 +13,34 @@ const useFirebase = () => {
 
     // auth
     const auth = getAuth();
-    const databaseUri = 'http://localhost:5000';
+    const databaseUri = 'https://hero-rider-server-side.herokuapp.com';
 
     // create user with email and pass 
     const handleEmailPasswordRegister = (data, navigate, location) => {
-        setIsLoading(true)
+        setIsLoading(true);
         createUserWithEmailAndPassword(auth, data.email, data.password1)
             .then((user) => {
                 saveUser(data);
-                updateNewUser(data.fullName);
+                updateNewUser(data.fullName, data.userImage);
             })
             .catch((error) => {
                 setError(error.message);
             }).finally(() => {
                 navigate(location);
-                setIsLoading(false);
             })
+        setIsLoading(false);
     };
     //save user to db
     const saveUser = data => {
         axios.post(`${databaseUri}/users`, data)
-            .then(res => console.log(res))
-
-
+            .then()
     };
 
     //update user
-    const updateNewUser = (name) => {
+    const updateNewUser = (name, image) => {
         updateProfile(auth.currentUser, {
-            displayName: name
+            displayName: name,
+            photoURL: image
         }).then(() => {
 
         }).catch((error) => {
@@ -50,10 +49,9 @@ const useFirebase = () => {
 
     // Login user with email and pass 
     const handleEmailPasswordLogin = (email, password, navigate) => {
-        setIsLoading(true)
+        setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
-
             })
             .catch((error) => {
                 setError(error.message);
@@ -61,8 +59,8 @@ const useFirebase = () => {
             })
             .finally(() => {
                 navigate('/');
-                setIsLoading(false);
             })
+        setIsLoading(false);
     };
 
     // observer
@@ -105,11 +103,9 @@ const useFirebase = () => {
 
     // check admin
     useEffect(() => {
-        setIsLoading(true)
         axios.get(`${databaseUri}/admin?email=${user.email}`)
             .then(res => setAdmin(res.data.admin))
             .catch()
-        setIsLoading(false)
     }, [user.email]);
 
     return ({

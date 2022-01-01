@@ -19,8 +19,8 @@ const Navigation = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    const { user, handleLogOut } = useAuth();
-    console.log(user)
+    const { user, handleLogOut, admin } = useAuth();
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -88,11 +88,11 @@ const Navigation = () => {
                                     <Typography textAlign="center">My Profile</Typography>
                                 </MenuItem>
                             </Link>
-                            <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+                            {admin && <Link to='/dashboard' style={{ textDecoration: 'none' }}>
                                 <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">Dashboard</Typography>
                                 </MenuItem>
-                            </Link>
+                            </Link>}
                             {!user && <Link to='/login' style={{ textDecoration: 'none' }}>
                                 <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">Login</Typography>
@@ -123,13 +123,13 @@ const Navigation = () => {
                             >My Profile
                             </Button>
                         </Link>
-                        <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+                        {admin && <Link to='/dashboard' style={{ textDecoration: 'none' }}>
                             <Button
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >Dashboard
                             </Button>
-                        </Link>
+                        </Link>}
                     </Box>
                     {!user.email && <Box sx={{
                         flexGrow: 1,
@@ -150,7 +150,7 @@ const Navigation = () => {
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar
                                     alt="Remy Sharp"
-                                    src="/broken-image.jpg"
+                                    src={user.photoURL}
                                 >
                                     {user?.displayName?.slice(0, 1)}
                                 </Avatar>

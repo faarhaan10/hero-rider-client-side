@@ -4,15 +4,14 @@ import Navigation from '../Shared/Navigation/Navigation';
 import { Container, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
+import Footer from '../Shared/Footer/Footer';
 
 const UserProfile = () => {
     const [profile, setProfile] = React.useState({});
     const { user, databaseUri } = useAuth();
 
-    console.log(user, profile);
-
     React.useEffect(() => {
-        axios.get(`${databaseUri}/users?email=${user.email}`)
+        axios.get(`${databaseUri}/profile?email=${user.email}`)
             .then(res => setProfile(res.data))
     }, [user.email]);
 
@@ -104,6 +103,7 @@ const UserProfile = () => {
 
                 </Grid>
             </Container>
+            <Footer />
         </div>
     );
 };

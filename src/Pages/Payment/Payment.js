@@ -48,7 +48,7 @@ const Payment = () => {
                 >
                     Pay for standard package
                 </Typography>
-                <TextField
+                {user.displayName && <TextField
                     label="Name"
                     fullWidth
                     sx={{ mb: 2 }}
@@ -56,7 +56,7 @@ const Payment = () => {
                     InputProps={{
                         readOnly: true,
                     }}
-                />
+                />}
                 <TextField
                     label="Email"
                     fullWidth

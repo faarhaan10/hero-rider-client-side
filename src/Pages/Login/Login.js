@@ -63,6 +63,7 @@ const Login = () => {
                                     label="Password"
                                     id="password"
                                     variant="standard"
+                                    type='password'
                                     sx={{ mb: 3 }}
                                     {...register("password", { required: true })}
                                 />

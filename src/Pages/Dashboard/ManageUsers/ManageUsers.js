@@ -10,6 +10,8 @@ import axios from 'axios';
 import { Button, ButtonGroup, Checkbox, Typography } from '@mui/material';
 import useAuth from '../../../hooks/useAuth';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
+import SearchSort from './SearchSort';
 
 
 
@@ -18,52 +20,61 @@ import { Box } from '@mui/system';
 
 const ManageUsers = () => {
     const [allUser, setAllUser] = React.useState([]);
+    const [displayUser, setDisplayUser] = React.useState([]);
     const [selectedUsers, setSelectedUsers] = React.useState([]);
+    const [page, setPage] = React.useState(0);
+    const [pageCount, setPageCount] = React.useState(0);
     const { databaseUri } = useAuth();
-
+    const navigate = useNavigate();
+    const size = 10;
     // load all allUser 
     React.useEffect(() => {
-        axios.get(`${databaseUri}/users`)
+        axios.get(`${databaseUri}/users?page=${page}&&size=${size}`)
             .then(res => {
-                setAllUser(res.data);
+                setAllUser(res.data.result);
+                setDisplayUser(res.data.result);
+                const count = res.data.count;
+                const pageNumber = Math.ceil(count / size);
+                setPageCount(pageNumber);
             })
-    }, []);
+    }, [page]);
 
 
-    // Product delete handler
+
+    // User delete handler
     const handleDelete = () => {
-        const proceed = window.confirm('Are you sure to delete these users?');
-        if (proceed) {
-            axios.delete(`${databaseUri}/users`, selectedUsers)
-                .then(res => {
-                    console.log(res)
-                    if (res.data.acknowledged) {
-                        alert('Product deleted Succesfully');
 
-                    }
-                });
-        }
+        axios.delete(`${databaseUri}/manage`, { data: selectedUsers })
+            .then(res => {
+                if (res.data.deletedCount) {
+                    alert('Users deleted Succesfully');
+                    const restUsers = selectedUsers.filter(
+                        user => allUser.filter(
+                            oldUser => oldUser !== user));
+                    setAllUser(restUsers);
+                    setDisplayUser(restUsers);
+                }
+            });
     };
     const handleBlock = () => {
-        axios.put(`${databaseUri}/users`, selectedUsers)
+        axios.put(`${databaseUri}/manage`, selectedUsers)
             .then(res => {
-                console.log(res)
                 if (res.data.acknowledged) {
-                    alert('Product deleted Succesfully');
-
+                    alert('Users updated Succesfully');
+                    navigate('/dashboard')
                 }
             });
     }
 
-    const handleCheck = (isChecked, id) => {
-        let newUser = [...selectedUsers];
+    const handleCheck = (isChecked, email) => {
+        const newUser = [...selectedUsers];
         if (isChecked) {
-            newUser.push(id);
+            newUser.push(email);
             setSelectedUsers(newUser);
         }
         else {
-            newUser.pop(id);
-            setSelectedUsers(newUser);
+            const restUser = newUser.filter(user => user !== email);
+            setSelectedUsers(restUser);
         }
     };
 
@@ -71,19 +82,25 @@ const ManageUsers = () => {
         <Paper sx={{ width: '100%', overflow: 'hidden', mt: 10 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="body1" sx={{ p: 2 }} >
+                    Result in page {page + 1} = {displayUser.length}
+                    <br />
                     Selected: {selectedUsers.length}
                 </Typography>
-                {selectedUsers.length && <Box>
+                {selectedUsers.length ? <Box>
                     <ButtonGroup size="small" variant="text" aria-label="outlined button group">
                         <Button onClick={handleBlock}>Block</Button>
                         <Button onClick={handleDelete}>Delete</Button>
                     </ButtonGroup>
-                </Box>}
-                <Typography variant="body1" sx={{ p: 2 }} >
-                    Total user: {allUser.length}
-                </Typography>
+                </Box> :
+                    <Box></Box>
+                }
+
+                <SearchSort
+                    allUser={allUser}
+                    setDisplayUser={setDisplayUser}
+                />
             </Box>
-            <TableContainer sx={{ maxHeight: 500 }}>
+            <TableContainer sx={{ minHeight: 450 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -115,7 +132,7 @@ const ManageUsers = () => {
                     </TableHead>
                     <TableBody>
                         {
-                            allUser.map(singleUser => <TableRow
+                            displayUser.map(singleUser => <TableRow
                                 hover
                                 role="checkbox"
                                 tabIndex={-1}
@@ -124,7 +141,7 @@ const ManageUsers = () => {
                                 <TableCell >
                                     <Checkbox
                                         color="success"
-                                        onChange={e => handleCheck(e.target.checked, singleUser._id)}
+                                        onChange={e => handleCheck(e.target.checked, singleUser.email)}
                                     />
                                 </TableCell>
                                 <TableCell >
@@ -155,6 +172,18 @@ const ManageUsers = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Box>
+                <Typography variant="h6" component="span" sx={{ m: 2 }}>
+                    Pages:
+                </Typography>
+                {
+                    [...Array(pageCount).keys()].map(number => <Button
+                        key={number}
+                        onClick={() => setPage(number)}
+                    >{number + 1}</Button>)
+                }
+
+            </Box>
 
             {/* {!allUser.length && <Typography variant="h5" component="div" sx={{ fontWeight: 600, m: 2 }}>
                 No orders
