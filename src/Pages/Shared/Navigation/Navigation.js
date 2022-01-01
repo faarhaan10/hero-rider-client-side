@@ -12,11 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 
 
 const Navigation = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const { user, handleLogOut } = useAuth();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -85,14 +88,11 @@ const Navigation = () => {
                                     <Typography textAlign="center">Dashboard</Typography>
                                 </MenuItem>
                             </Link>
-                            <Link to='/login' style={{ textDecoration: 'none' }}>
+                            {!user && <Link to='/login' style={{ textDecoration: 'none' }}>
                                 <MenuItem onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">Login</Typography>
                                 </MenuItem>
-                            </Link>
-                            <MenuItem onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center" sx={{ color: 'blue' }}>Logout</Typography>
-                            </MenuItem>
+                            </Link>}
                         </Menu>
                     </Box>
                     <Typography
@@ -119,7 +119,10 @@ const Navigation = () => {
                             </Button>
                         </Link>
                     </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'end' }}>
+                    {!user.email && <Box sx={{
+                        flexGrow: 1,
+                        display: { xs: 'none', md: 'flex' }, justifyContent: 'end'
+                    }}>
                         <Link to='/login' style={{ textDecoration: 'none' }}>
                             <Button
                                 onClick={handleCloseNavMenu}
@@ -127,18 +130,18 @@ const Navigation = () => {
                             >Login
                             </Button>
                         </Link>
-                        <Button
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >Logout
-                        </Button>
-                    </Box>
+                    </Box>}
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    {user.email && <Box sx={{ flexGrow: 0 }}>
 
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar
+                                    alt="Remy Sharp"
+                                    src="/broken-image.jpg"
+                                >
+                                    {user.displayName.at(0)}
+                                </Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -168,18 +171,11 @@ const Navigation = () => {
                                     <Typography textAlign="center">Profile</Typography>
                                 </MenuItem>
                             </Link>
-                            <Link to='/login' style={{ textDecoration: 'none' }}>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">Login</Typography>
-                                </MenuItem>
-                            </Link>
-                            <Link to='/' style={{ textDecoration: 'none' }}>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">Logout</Typography>
-                                </MenuItem>
-                            </Link>
+                            <MenuItem onClick={handleLogOut}>
+                                <Typography textAlign="center" sx={{ color: 'blue' }}>Logout</Typography>
+                            </MenuItem>
                         </Menu>
-                    </Box>
+                    </Box>}
                 </Toolbar>
             </Container>
         </AppBar>

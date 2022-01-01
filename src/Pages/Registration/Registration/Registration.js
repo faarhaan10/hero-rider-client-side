@@ -4,7 +4,6 @@ import { Box } from '@mui/system';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import RiderJoining from '../Modals/RiderJoining/RiderJoining'
 import LearnerJoining from '../Modals/LearnerJoining/LearnerJoining';
-// import useAuth from '../../../hooks/useAuth';
 
 const Registration = () => {
 

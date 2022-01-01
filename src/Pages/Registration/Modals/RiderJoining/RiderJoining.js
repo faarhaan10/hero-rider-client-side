@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import UserInformation from '../Common/UserInformation';
 import VehicalInformation from '../Common/VehicalInformation';
 import UserPassword from '../Common/UserPassword';
+import useAuth from '../../../../hooks/useAuth';
 
 const style = {
     position: 'absolute',
@@ -23,10 +24,12 @@ const style = {
 };
 
 export default function RiderJoining(props) {
+    const { handleEmailPasswordRegister } = useAuth();
+
     const { openRider, setOpenRider } = props;
     const handleClose = () => setOpenRider(false);
 
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data);
         if (data.password1 !== data.password2 && data.password1.length <= 6) {
@@ -38,27 +41,8 @@ export default function RiderJoining(props) {
             alert('Time for study kid! Your age was not satisfy our policy');
             return;
         };
-        // const { img, ...rest } = data;
-
-        // const formData = new FormData();
-        // formData.append('image', img[0]);
-        // formData.append('title', rest.title);
-        // formData.append('vendor', rest.vendor);
-        // formData.append('price', rest.price);
-        // formData.append('flavour', rest.flavour);
-        // formData.append('description', rest.description);
-
-        // fetch('http://localhost:5000/soaps', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         if (data.acknowledged) {
-        //             reset();
-        //             alert('Succesfully added .');
-        //         }
-        //     })
+        const location = '/profile'
+        handleEmailPasswordRegister(data, location)
     };
 
     return (
