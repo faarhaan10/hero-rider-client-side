@@ -3,7 +3,6 @@ import AuthProvider from "./context/AuthProvider/AuthProvider";
 import Home from './Pages/Home/Home/Home';
 import Login from "./Pages/Login/Login";
 import NotFound from "./Pages/NotFound/NotFound";
-import Packages from "./Pages/Packages/Packages";
 import Payment from "./Pages/Payment/Payment";
 import PrivateRoute from "./Pages/ProtectedRoutes/PrivateRoute/PrivateRoute";
 import Registration from "./Pages/Registration/Registration/Registration";
@@ -21,10 +20,7 @@ function App() {
           <Route path="profile" element={<PrivateRoute>
             <UserProfile />
           </PrivateRoute>} />
-          <Route path="packages" element={<PrivateRoute>
-            <Packages />
-          </PrivateRoute>} />
-          <Route path="payment" element={<PrivateRoute>
+          <Route path="payment/:vehicle" element={<PrivateRoute>
             <Payment />
           </PrivateRoute>} />
           <Route path="*" exact element={<NotFound />} />

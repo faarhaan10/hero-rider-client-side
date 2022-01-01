@@ -2,12 +2,14 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
 import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-const CheckoutForm = ({ appointment }) => {
-    const { price, patientName, _id } = appointment;
+const CheckoutForm = ({ newPackage }) => {
+    const { price, packageName } = newPackage;
     const stripe = useStripe();
     const elements = useElements();
-    const { user } = useAuth();
+    const { user, databaseUri } = useAuth();
+    const navigate = useNavigate();
 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -15,7 +17,7 @@ const CheckoutForm = ({ appointment }) => {
     const [clientSecret, setClientSecret] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intent', {
+        fetch(`${databaseUri}/create-payment-intent`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -52,13 +54,13 @@ const CheckoutForm = ({ appointment }) => {
         }
 
         // payment intent
-        const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
+        const { error: intentError } = await stripe.confirmCardPayment(
             clientSecret,
             {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        name: patientName,
+                        name: user.displayName,
                         email: user.email
                     },
                 },
@@ -71,32 +73,19 @@ const CheckoutForm = ({ appointment }) => {
         }
         else {
             setError('');
-            setSuccess('Your payment processed successfully.')
-            console.log(paymentIntent);
+            setSuccess('Your payment processed successfully.');
             setProcessing(false);
-            // save to database
-            const payment = {
-                amount: paymentIntent.amount,
-                created: paymentIntent.created,
-                last4: paymentMethod.card.last4,
-                transaction: paymentIntent.client_secret.slice('_secret')[0]
-            }
-            const url = `http://localhost:5000/appointments/${_id}`;
-            fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(payment)
-            })
-                .then(res => res.json())
-                .then(data => console.log(data));
+            alert('Your payment processed successfully.');
+            navigate('/');
+
         }
 
     }
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <span>Package: {packageName}</span>
+                <h5>Pay: ${price}</h5>
                 <CardElement
                     options={{
                         style: {

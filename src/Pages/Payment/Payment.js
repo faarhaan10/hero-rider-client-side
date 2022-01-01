@@ -4,14 +4,26 @@ import { Box } from '@mui/system';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
-import useFirebase from '../../hooks/useFirebase'
+import useAuth from '../../hooks/useAuth'
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 
-const stripePromise = loadStripe('pk_test_51JvTmwKKPIXU1Tgx8SiIyxMFYTIyOKZFEBJQhEUaFN444MPUgsn6zscUL43IVaWtVmJueXwhyPsNeThjc4Pu2RtN00ZO7uUvaI');
+const stripePromise = loadStripe('pk_test_51JwA8ICJB2Pdfh3ScyEoJ0i06YwIFydT6QuW1KLDBIM9kA2H3OI6jgQPXH9CJZ22bwDq2KGJs9KTZqgz9Xbl6aGj00JfjZvPoS');
 
 
 const Payment = () => {
-    const firebse = useFirebase();
+    const [newPackage, setNewPackage] = React.useState([]);
+    const { user, databaseUri } = useAuth();
+    const { vehicle } = useParams();
+
+    React.useEffect(() => {
+        axios.get(`${databaseUri}/packages/${vehicle}`)
+            .then(res => {
+                setNewPackage(res.data);
+            })
+    }, [vehicle]);
+
     return (
         <Box sx={{
             height: {
@@ -31,74 +43,41 @@ const Payment = () => {
                 }}>
                 <Typography
                     variant="h4"
-                    gutterBottom
                     component="div"
                     sx={{ textAlign: 'center' }}
                 >
                     Pay for standard package
                 </Typography>
-                <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                    <Grid item xs={12} md={6} >
-                        <TextField
-                            label="Name"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="Hello"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            label="Email"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="Hello"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            label="Phone"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="Hello"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6} >
-                        <TextField
-                            label="Package"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="Hello"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            label="Payment method"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="Stripe"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                        <TextField
-                            label="Price $"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            defaultValue="100"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                        />
-                    </Grid>
-                </Grid>
+                <TextField
+                    label="Name"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    defaultValue={user.displayName}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                />
+                <TextField
+                    label="Email"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    defaultValue={user.email}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                />
+
+                <TextField
+                    label="Payment method"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    defaultValue="Stripe"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                />
                 <Elements stripe={stripePromise}>
-                    <CheckoutForm />
+                    <CheckoutForm newPackage={newPackage} />
                 </Elements>
             </Container>
 

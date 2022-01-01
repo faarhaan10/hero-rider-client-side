@@ -47,7 +47,7 @@ const LearnerJoining = (props) => {
             return;
         };
 
-        const location = '/packages';
+        const location = `/payment/${data.vehicleType}`;
         const isBlock = false;
         const role = 'learner';
         const newData = {
