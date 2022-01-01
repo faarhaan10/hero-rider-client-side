@@ -1,7 +1,7 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
-import useAuth from './../../../hooks/useAuth';
 import { CircularProgress } from '@mui/material';
+import useAuth from '../../hooks/useAuth';
 
 const CheckoutForm = ({ appointment }) => {
     const { price, patientName, _id } = appointment;

@@ -4,13 +4,14 @@ import { Box } from '@mui/system';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
-
+import useFirebase from '../../hooks/useFirebase'
 
 
 const stripePromise = loadStripe('pk_test_51JvTmwKKPIXU1Tgx8SiIyxMFYTIyOKZFEBJQhEUaFN444MPUgsn6zscUL43IVaWtVmJueXwhyPsNeThjc4Pu2RtN00ZO7uUvaI');
 
 
 const Payment = () => {
+    const firebse = useFirebase();
     return (
         <Box sx={{
             height: {
