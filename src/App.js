@@ -2,6 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthProvider/AuthProvider";
 import Home from './Pages/Home/Home/Home';
 import Login from "./Pages/Login/Login";
+import NotFound from "./Pages/NotFound/NotFound";
 import Packages from "./Pages/Packages/Packages";
 import Payment from "./Pages/Payment/Payment";
 import PrivateRoute from "./Pages/ProtectedRoutes/PrivateRoute/PrivateRoute";
@@ -26,6 +27,7 @@ function App() {
           <Route path="payment" element={<PrivateRoute>
             <Payment />
           </PrivateRoute>} />
+          <Route path="*" exact element={<NotFound />} />
 
         </Routes>
       </BrowserRouter>

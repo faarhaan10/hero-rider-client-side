@@ -25,7 +25,12 @@ const style = {
 };
 
 export default function RiderJoining(props) {
-    const { handleEmailPasswordRegister } = useAuth();
+    const [userImage, setUserImage] = React.useState('');
+    const [userNid, setUserNid] = React.useState('');
+    const [drivingLicence, setDrivingLicence] = React.useState('');
+    const [carPalate, setCarPalate] = React.useState('');
+
+    const { handleEmailPasswordRegister, uploadImage } = useAuth();
 
     const { openRider, setOpenRider } = props;
     const handleClose = () => setOpenRider(false);
@@ -44,17 +49,30 @@ export default function RiderJoining(props) {
             alert('Time for study kid! Your age was not satisfy our policy');
             return;
         };
+
         const location = '/profile';
-        const isAdmin = false;
-        const userType = 'rider';
+        const isBlock = false;
+        const role = 'rider';
         const newData = {
-            isAdmin,
-            userType,
+            role,
+            isBlock,
+            drivingLicence,
+            carPalate,
+            userImage,
+            userNid,
             ...data
         };
-        console.log(data);
+
         handleEmailPasswordRegister(newData, navigate, location);
+
     };
+
+    const handleImgUpload = (img, setImg) => {
+        uploadImage(img)
+            .then(res => {
+                setImg(res.data.data.url);
+            })
+    }
 
     return (
         <div>
@@ -71,18 +89,22 @@ export default function RiderJoining(props) {
                         component="form"
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <UserInformation register={register} />
+                        <UserInformation
+                            register={register}
+                            setUserNid={setUserNid}
+                            setUserImage={setUserImage}
+                            handleImgUpload={handleImgUpload}
+                        />
+
                         <br />
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, md: 12 }}>
-
                             <Grid item xs={8} md={6} >
                                 <TextField
                                     helperText="Upload your Driving Licence"
                                     sx={{ width: 1 }}
                                     accept="image/png, image/jpg, image/jpeg"
-                                    multiple
                                     type="file"
-                                    {...register("drivingLicence", { required: true })}
+                                    onChange={e => handleImgUpload(e.target.files[0], setDrivingLicence)}
                                 />
                             </Grid>
                             <Grid item xs={8} md={6} >
@@ -94,7 +116,11 @@ export default function RiderJoining(props) {
                             </Grid>
                         </Grid>
                         <br />
-                        <VehicalInformation register={register} />
+                        <VehicalInformation
+                            register={register}
+                            setCarPalate={setCarPalate}
+                            handleImgUpload={handleImgUpload}
+                        />
 
                         <br />
                         <UserPassword register={register} />

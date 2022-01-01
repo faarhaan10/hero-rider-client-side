@@ -20,7 +20,7 @@ const Navigation = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const { user, handleLogOut } = useAuth();
-
+    console.log(user)
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -140,7 +140,7 @@ const Navigation = () => {
                                     alt="Remy Sharp"
                                     src="/broken-image.jpg"
                                 >
-                                    {user.displayName.at(0)}
+                                    {user?.displayName?.slice(0, 1)}
                                 </Avatar>
                             </IconButton>
                         </Tooltip>

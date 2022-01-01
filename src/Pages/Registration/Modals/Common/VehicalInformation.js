@@ -2,7 +2,9 @@ import React from 'react';
 import { MenuItem, Select, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-const VehicalInformation = ({ register }) => {
+const VehicalInformation = ({ register, handleImgUpload, setCarPalate }) => {
+
+
     return (
         <div>
             <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
@@ -14,21 +16,21 @@ const VehicalInformation = ({ register }) => {
                         sx={{ width: 1 }}
                         label="Vehicle name"
                         type='text'
-                        {...register("vehicleName", { required: true })} />
+                        {...register("vehicleName")} />
                 </Grid>
                 <Grid item xs={8} md={6} >
                     <TextField
                         sx={{ width: 1 }}
                         label="Model"
                         type='text'
-                        {...register("vehicleModel", { required: true })} />
+                        {...register("vehicleModel")} />
                 </Grid>
                 <Grid item xs={8} md={6} >
                     <TextField
                         fullWidth
                         select
                         label="Vehicle type"
-                        {...register("vehicleType", { required: true })}
+                        {...register("vehicleType")}
                     >
 
                         <MenuItem defaultValue=''>
@@ -48,9 +50,8 @@ const VehicalInformation = ({ register }) => {
                         helperText="Upload vehicle name palate"
                         sx={{ width: 1 }}
                         accept="image/png, image/jpg, image/jpeg"
-                        multiple
                         type="file"
-                        {...register("vehicleImg", { required: true })}
+                        onChange={e => handleImgUpload(e.target.files[0], setCarPalate)}
                     />
                 </Grid>
             </Grid>

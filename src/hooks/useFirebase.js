@@ -13,6 +13,7 @@ const useFirebase = () => {
 
     // auth
     const auth = getAuth();
+    const databaseUri = 'http://localhost:5000';
 
     // create user with email and pass 
     const handleEmailPasswordRegister = (data, navigate, location) => {
@@ -20,12 +21,7 @@ const useFirebase = () => {
         createUserWithEmailAndPassword(auth, data.email, data.password1)
             .then((user) => {
                 saveUser(data);
-                updateProfile(auth.currentUser, {
-                    displayName: data.fullName
-                }).then(() => {
-
-                }).catch((error) => {
-                });
+                updateNewUser(data.fullName);
             })
             .catch((error) => {
                 setError(error.message);
@@ -34,9 +30,26 @@ const useFirebase = () => {
                 setIsLoading(false);
             })
     };
+    //save user to db
+    const saveUser = data => {
+        axios.post(`${databaseUri}/users`, data)
+            .then(res => console.log(res))
+
+
+    };
+
+    //update user
+    const updateNewUser = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: name
+        }).then(() => {
+
+        }).catch((error) => {
+        });
+    }
 
     // Login user with email and pass 
-    const handleEmailPasswordLogin = (email, password, history, location) => {
+    const handleEmailPasswordLogin = (email, password, navigate) => {
         setIsLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
@@ -46,7 +59,7 @@ const useFirebase = () => {
                 setError(error.message);
             })
             .finally(() => {
-
+                navigate('/');
                 setIsLoading(false);
             })
     };
@@ -75,29 +88,31 @@ const useFirebase = () => {
         });
     };
 
-    //save user to db
-    const saveUser = data => {
-        // const { img, ...rest } = data;
+    // upload image to imgBB
 
-        // const formData = new FormData();
-        // formData.append('image', img[0]);
-        // formData.append('title', rest.title);
-        // formData.append('vendor', rest.vendor);
-        // formData.append('price', rest.price);
-        // formData.append('flavour', rest.flavour);
-        // formData.append('description', rest.description);
+    const uploadImage = img => {
+        let body = new FormData()
+        body.set('key', '7e550a7fc902522e5934b0e3e9a410d8')
+        body.append('image', img)
 
-        // axios.post('https://savon-server-sider-api.herokuapp.com/users')
-        //     .then()
-        console.log(data)
-
+        return axios({
+            method: 'post',
+            url: 'https://api.imgbb.com/1/upload',
+            data: body
+        });
     };
 
     return ({
         user,
         error,
+        setError,
         isLoading,
+        databaseUri,
+        uploadImage,
+        setIsLoading,
         handleLogOut,
+        updateNewUser,
+        handleEmailPasswordLogin,
         handleEmailPasswordRegister
     }
     );

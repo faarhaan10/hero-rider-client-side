@@ -1,25 +1,21 @@
 import React from 'react';
-import { Button, Chip, Container, Divider, Grid, TextField, Typography } from '@mui/material';
+import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import useAuth from '../../../hooks/useAuth';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
-    // const { handleGoogleLogin, handleUserLogin } = useAuth();
+    const { handleEmailPasswordLogin } = useAuth();
     const { register, handleSubmit } = useForm();
 
-    const location = useLocation();
+
     const navigate = useNavigate();
 
     const onSubmit = data => {
-        // handleUserLogin(data.email, data.password, navigate, location);
-        console.log(data);
+        handleEmailPasswordLogin(data.email, data.password, navigate);
     };
 
-    // const handleLogin = () => {
-    //     handleGoogleLogin(navigate, location);
-    // }
 
     return (
         <Box sx={{

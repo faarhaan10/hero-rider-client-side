@@ -5,7 +5,6 @@ import { TextField, Typography, Button, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useForm } from "react-hook-form";
 import UserInformation from '../Common/UserInformation';
-import VehicalInformation from '../Common/VehicalInformation';
 import UserPassword from '../Common/UserPassword';
 import useAuth from '../../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -25,8 +24,10 @@ const style = {
 };
 
 const LearnerJoining = (props) => {
+    const [userImage, setUserImage] = React.useState('');
+    const [userNid, setUserNid] = React.useState('');
 
-    const { handleEmailPasswordRegister } = useAuth();
+    const { handleEmailPasswordRegister, uploadImage } = useAuth();
 
     const { openLearner, setOpenLearner } = props;
     const handleCloseLearner = () => setOpenLearner(false);
@@ -47,16 +48,23 @@ const LearnerJoining = (props) => {
         };
 
         const location = '/packages';
-        const isAdmin = false;
-        const userType = 'rider';
+        const isBlock = false;
+        const role = 'learner';
         const newData = {
-            isAdmin,
-            userType,
+            role,
+            isBlock,
+            userImage,
+            userNid,
             ...data
         };
         handleEmailPasswordRegister(newData, navigate, location);
     };
-
+    const handleImgUpload = (img, setImg) => {
+        uploadImage(img)
+            .then(res => {
+                setImg(res.data.data.url);
+            })
+    }
     return (
         <div>
             <Modal
@@ -71,7 +79,12 @@ const LearnerJoining = (props) => {
                         component="form"
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <UserInformation register={register} />
+                        <UserInformation
+                            register={register}
+                            setUserNid={setUserNid}
+                            setUserImage={setUserImage}
+                            handleImgUpload={handleImgUpload}
+                        />
                         <br />
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 8, md: 12 }}>
 

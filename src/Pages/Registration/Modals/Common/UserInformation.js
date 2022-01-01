@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-const UserInformation = ({ register }) => {
+const UserInformation = ({ register, handleImgUpload, setUserImage, setUserNid }) => {
 
     return (
         <div>
@@ -33,7 +33,7 @@ const UserInformation = ({ register }) => {
                         sx={{ width: 1 }}
                         label="Age"
                         type='number'
-                        {...register("age", { required: true })} />
+                        {...register("age")} />
                 </Grid>
 
 
@@ -42,7 +42,7 @@ const UserInformation = ({ register }) => {
                         sx={{ width: 1 }}
                         label="Phone"
                         type='number'
-                        {...register("phone", { required: true })} />
+                        {...register("phone")} />
                 </Grid>
 
                 <Grid item xs={8} md={6} >
@@ -50,7 +50,7 @@ const UserInformation = ({ register }) => {
                         sx={{ width: 1 }}
                         label="Address"
                         type='text'
-                        {...register("address", { required: true })} />
+                        {...register("address")} />
                 </Grid>
 
 
@@ -59,9 +59,8 @@ const UserInformation = ({ register }) => {
                         helperText="Upload your profile picture"
                         sx={{ width: 1 }}
                         accept="image/png, image/jpg, image/jpeg"
-                        multiple
                         type="file"
-                        {...register("userImg", { required: true })}
+                        onChange={e => handleImgUpload(e.target.files[0], setUserImage)}
                     />
                 </Grid>
 
@@ -71,9 +70,8 @@ const UserInformation = ({ register }) => {
                         helperText="Upload your NID"
                         sx={{ width: 1 }}
                         accept="image/png, image/jpg, image/jpeg"
-                        multiple
                         type="file"
-                        {...register("userNID", { required: true })}
+                        onChange={e => handleImgUpload(e.target.files[0], setUserNid)}
                     />
                 </Grid>
 

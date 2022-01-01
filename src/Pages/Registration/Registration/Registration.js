@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RiderJoining from '../Modals/RiderJoining/RiderJoining'
 import LearnerJoining from '../Modals/LearnerJoining/LearnerJoining';
 
