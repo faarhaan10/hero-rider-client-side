@@ -4,6 +4,7 @@ import Home from './Pages/Home/Home/Home';
 import Login from "./Pages/Login/Login";
 import Packages from "./Pages/Packages/Packages";
 import Payment from "./Pages/Payment/Payment";
+import PrivateRoute from "./Pages/ProtectedRoutes/PrivateRoute/PrivateRoute";
 import Registration from "./Pages/Registration/Registration/Registration";
 import UserProfile from "./Pages/UserProfile/UserProfile";
 
@@ -15,14 +16,17 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="registration" element={<Registration />} />
-          <Route path="profile" element={<UserProfile />} />
-          <Route path="packages" element={<Packages />} />
-          <Route path="payment" element={<Payment />} />
-          {/* <Route path="teams" element={<Teams />}>
-          <Route path=":teamId" element={<Team />} />
-          <Route path="new" element={<NewTeamForm />} />
-          <Route index element={<LeagueStandings />} />
-        </Route> */}
+
+          <Route path="profile" element={<PrivateRoute>
+            <UserProfile />
+          </PrivateRoute>} />
+          <Route path="packages" element={<PrivateRoute>
+            <Packages />
+          </PrivateRoute>} />
+          <Route path="payment" element={<PrivateRoute>
+            <Payment />
+          </PrivateRoute>} />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>
